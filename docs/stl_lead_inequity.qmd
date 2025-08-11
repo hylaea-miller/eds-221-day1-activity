@@ -1,0 +1,71 @@
+---
+title: "stl_lead_inequity"
+format: html
+editor: visual
+---
+
+```{r}
+library(tidyverse)
+library(janitor)
+
+```
+
+```{r}
+stl_lead <- read_csv(here::here("data", "stl_blood_lead.csv")) |> janitor::clean_names(
+)
+```
+```{r}
+rm(list = ls())
+stl_lead <- read_csv(here::here("data", "stl_blood_lead.csv"))
+stl_lead |>
+  clean_names()
+names(stl_lead)
+```
+```{r}
+stl_lead_prop <- stl_lead |> 
+  mutate(prop_white = (white/total_pop)* 100)
+```
+
+```{r}
+
+
+dim(stl_lead_prop)
+names(stl_lead_prop)
+```
+```{r}
+mutate(.data = stl_lead, prop_white = (white/total_pop)*100)
+```
+
+```{r}
+stl_lead_plot <- ggplot(data = stl_lead, 
+                           aes(x = pct_elevated, y = prop_white)) +
+  geom_jitter() + theme_minimal() +
+  labs(title = "Population",
+       x = "pop",
+       y = "pop white")
+
+```
+
+
+```{r}
+stl_lead_plot <- ggplot(data = stl_lead_prop, 
+                           aes(x = pct_elevated, y = prop_white)) +
+  geom_jitter() + theme_minimal()
+stl_lead_plot
+```
+```{r}
+stl_lead_plot <- ggplot(data = stl_lead_prop, 
+                           aes(x = pct_elevated)) +
+  geom_histogram() + theme_minimal()
+stl_lead_plot
+```
+
+```{r}
+ggsave(here::here("figs", "stl_lead_plot.png"))
+
+```
+
+
+```
+
+
